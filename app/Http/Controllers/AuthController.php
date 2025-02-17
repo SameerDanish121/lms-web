@@ -1,11 +1,8 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
-
 class AuthController extends Controller
 {
     protected $baseUrl;
@@ -20,7 +17,6 @@ class AuthController extends Controller
     }
     public function handleLogin(Request $request)
     {
-        print('method hitted');
         $request->validate([
             'username' => 'required',
             'password' => 'required',
@@ -31,16 +27,17 @@ class AuthController extends Controller
         ]);
         $data = $response->json();
         if ($response->successful() && isset($data['Type'])) {
-            Session::put('user', $data);
+           
             if ($data['Type'] == 'Admin') {
                 return redirect()->route('admin.dashboard')->with('userData', $data);
             } elseif ($data['Type'] == 'Datacell') {
                 return redirect()->route('datacell.dashboard')->with('userData', $data);
             } else {
+                Session::put('error', 'Unauthorized role.');
                 return back()->withErrors(['error' => 'Unauthorized role.']);
             }
         }
-
+        Session::put('error', 'Unauthorized role.');
         return back()->withErrors(['error' => 'Invalid credentials.']);
     }
     public function logout()

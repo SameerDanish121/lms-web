@@ -17,18 +17,12 @@
 
 
     <div class="ml-auto md:ml-5 flex items-center space-x-3">
-        <img src="{{ asset('images/2021-ARID-4583.png') }}" alt="Profile Picture" class="w-11 h-10 rounded-full border border-gray-300">
+        <img src="{{ $profileImage ? $profileImage : asset('images/male.png') }}" 
+        alt="Profile Image" 
+        class="w-11 h-10 rounded-full border border-gray-300">
         <div class="flex flex-col">
             <span class="text-gray-600 font-semibold">{{ $username }}</span>
-
-
-            @if ($a === 'dc')
-                <span class="text-sm text-gray-400">DataCell Officer</span>
-            @elseif ($a === 'ad')
-                <span class="text-sm text-gray-400">Admin</span>
-            @else
-                <span class="text-sm text-gray-400">Role Not Defined</span>
-            @endif
+                <span class="text-sm text-gray-400">{{$designation?:'N/A'}}</span>
         </div>
     </div>
 

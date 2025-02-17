@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,7 +17,9 @@
             justify-content: center;
         }
 
-        .forgot:hover { color: white; }
+        .forgot:hover {
+            color: white;
+        }
 
         .glass {
             background: rgba(255, 255, 255, 0.2);
@@ -65,7 +68,9 @@
         }
     </style>
 </head>
+
 <body>
+   
 
     <!-- Heading -->
     <h1 class="text-4xl font-bold mb-6 text-center text-[#024CAA]">
@@ -76,17 +81,12 @@
     <div class="glass text-white flex flex-col items-center">
         <h2 class="login-title">Login</h2>
 
-        <!-- Error Alert (If Exists) -->
-        @if(session('error'))
-            <div id="error-alert" class="bg-red-600 text-white p-4 rounded-md w-full text-center mb-4 animate-bounce">
-                {{ session('error') }}
-            </div>
-        @endif
+        {{-- <!-- Error Alert (If Exists) -->
         @if(session('success'))
-            <div id="success-alert" class="bg-green-600 text-white p-4 rounded-md w-full text-center mb-4">
-                {{ session('success') }}
-            </div>
-        @endif
+        <div id="success-alert" class="bg-green-600 text-white p-4 rounded-md w-full text-center mb-4">
+            {{ session('success') }}
+        </div>
+        @endif --}}
 
         <!-- Login Form -->
         <form action="{{ route('handleLogin') }}" method="POST" class="w-full flex flex-col items-center">
@@ -94,32 +94,65 @@
 
             <div class="mb-6 w-full">
                 <input type="text" id="username" name="username" placeholder="Enter Your Username"
-                    class="input-field w-full p-4 rounded-lg border text-black focus:outline-none transition-all duration-300" required>
+                    class="input-field w-full p-4 rounded-lg border text-black focus:outline-none transition-all duration-300"
+                    required>
             </div>
 
             <div class="mb-4 w-full">
                 <input type="password" id="password" name="password" placeholder="Enter Your Password"
-                    class="input-field w-full p-4 rounded-lg border text-black focus:outline-none transition-all duration-300" required>
+                    class="input-field w-full p-4 rounded-lg border text-black focus:outline-none transition-all duration-300"
+                    required>
             </div>
-
+            @if(session('error'))
+            <div id="error-alert" class="bg-red-600 text-white p-4 rounded-md w-full text-center mb-4 animate-bounce">
+                {{ session('error') }}
+               
+            </div>
+            @endif
             <button type="submit"
                 class="btn-animate w-80 flex justify-center items-center bg-[#024CAA] text-white font-semibold p-4 mt-5 rounded-lg">
                 Login
             </button>
 
-            <a href="" class="m-4 text-black cursor-pointer forgot">Forgot Password?</a>
+            <a href="{{route('forgot')}}" class="m-4 text-black cursor-pointer forgot">Forgot Password?</a>
         </form>
     </div>
-    {{-- {{ route('forgot') }} --}}
-    <!-- Auto-hide Error Alert -->
     <script>
+        function clearSession() {
+    fetch('http://127.0.0.1:8000/clear-session', { // Update with your actual API URL
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            console.log(data.message);
+        } else {
+            console.log('Failed to clear session');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
         setTimeout(() => {
-            let errorAlert = document.getElementById('error-alert');
-            if (errorAlert) {
-                errorAlert.style.display = 'none';
-            }
-        }, 3000);
+    let errorAlert = document.getElementById('success-alert');
+    if (errorAlert) {
+        errorAlert.style.display = 'none';
+        clearSession();
+    }
+}, 5000); 
+setTimeout(() => {
+    let errorAlert = document.getElementById('error-alert');
+    if (errorAlert) {
+        errorAlert.style.display = 'none';
+        clearSession();
+    }
+}, 5000); 
     </script>
 
 </body>
+
 </html>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LMS Dashboard</title>
-    @vite(['resources/css/app.css'])
+    @vite('resources/css/app.css')
     <script>
         function toggleMenu() {
             document.getElementById("mobileMenu").classList.toggle("hidden");
@@ -59,15 +59,19 @@
   }
     </style>
 </head>
+@php
+$profileImage = !empty($userData['DatacellInfo']['image'] ) ? $userData['DatacellInfo']['image']  : asset('images/male.png');
+$userName = $userData['DatacellInfo']['name'] ?? 'Unknown User';
+$designation = $userData['DatacellInfo']['Designation'] ?? 'Unknown Role';
+$type=$userData['Type']??"Datacell";
+@endphp
 <body class="bg-gradient-to-r from-blue-300 via-blue-200 to-blue-100 min-h-screen p-0 m-0">
-    @include('components.navbar', ['username' => ' M Sharjeel', 'profileImage' => 'images/2021-ARID-4583.png', 'a'=>'dc'])
-
-
-
+    @include('components.navbar', ['username' => $userName, 'profileImage' => $profileImage,'designation'=>$designation, 'type'=>$type ])
+    
     <div class="max-w-6xl mx-auto mb-1 mt-6 p-6 rounded-2xl shadow-lg text-center fade-in backdrop-blur-lg border border-white/10" style="background: linear-gradient(to bottom right, rgba(0, 198, 255, 0.8), rgba(0, 114, 255, 0.8), rgba(30, 61, 143, 0.8));">
-        <img src="{{ asset('images/2021-ARID-4583.png') }}" alt="Profile Picture" class="mx-auto rounded-full border-4 border-white shadow-lg w-24 h-24 object-cover">
-        <h2 class="text-white text-2xl font-bold mt-3">Muhammad Sharjeel</h2>
-        <p class="text-white opacity-80">DataCell</p>
+        <img src="{{ $profileImage ? $profileImage : asset('images/male.png') }}" alt="" class="mx-auto rounded-full border-4 border-white shadow-lg w-24 h-24 object-cover">
+        <h2 class="text-white text-2xl font-bold mt-3">{{ $userData['DatacellInfo']['name'] }}</h2>
+        <p class="text-white opacity-80">{{ $userData['Type']}}</p>
         <button class="account-btn text-white px-6 py-3 mt-4 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-300 shadow-lg">Account Details</button>
     </div>
     <div class="relative w-full max-w-8xl overflow-hidden bg-gradient-to-r from-blue-600 to-indigo-800 text-white shadow-lg rounded-lg border border-white/10 mx-auto py-4">
@@ -91,33 +95,33 @@
            <button id="prevBtn" class="bg-white p-3 md:p-4 rounded-lg shadow-md text-center btn-hover mr-2 md:mr-5">⬅️</button>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 flex-1" id="cardContainer">
                 <!-- Button 1 -->
-                <a href="{{ route('Upload') }}" class="btn-card bg-white p-6 rounded-xl shadow-md text-center hover:scale-105 transition-transform">
+                <a href="" class="btn-card bg-white p-6 rounded-xl shadow-md text-center hover:scale-105 transition-transform">
                     <span class="text-4xl">📑</span>
                     <p class="mt-2 font-bold text-xs md:text-sm">Upload Timetable</p>
                 </a>
                 <!-- Button 2 -->
-                <a href="{{ route('uploadStudents') }}" class="btn-card bg-white p-6 rounded-xl shadow-md text-center hover:scale-105 transition-transform">
+                <a href="" class="btn-card bg-white p-6 rounded-xl shadow-md text-center hover:scale-105 transition-transform">
                     <span class="text-4xl">👨‍🎓</span>
                     <p class="mt-2 font-bold text-xs md:text-sm">Add Students</p>
                 </a>
                 <!-- Button 3 -->
-                <a href="{{ route('courses') }}" class="btn-card bg-white p-6 rounded-xl shadow-md text-center hover:scale-105 transition-transform">
+                <a href="" class="btn-card bg-white p-6 rounded-xl shadow-md text-center hover:scale-105 transition-transform">
                     <span class="text-4xl">📚</span>
                     <p class="mt-2 font-bold text-xs md:text-sm">All Courses</p>
                 </a>
                 <!-- Button 4 -->
-                <a href="{{ route('courses') }}" class="btn-card bg-white p-6 rounded-xl shadow-md text-center hover:scale-105 transition-transform">
+                <a href="" class="btn-card bg-white p-6 rounded-xl shadow-md text-center hover:scale-105 transition-transform">
                     <span class="text-4xl">🎓</span>
                     <p class="mt-2 font-bold text-xs md:text-sm">Assign Courses</p>
                 </a>
 
                 <!-- Button 5 -->
-                <a href="{{ route('courses') }}" class="btn-card bg-white p-6 rounded-xl shadow-md text-center hover:scale-105 transition-transform">
+                <a href="" class="btn-card bg-white p-6 rounded-xl shadow-md text-center hover:scale-105 transition-transform">
                     <span class="text-4xl">👨‍🏫</span>
                     <p class="mt-2 font-bold text-xs md:text-sm">Teachers</p>
                 </a>
                 <!-- Button 6 -->
-                <a href="{{ route('courses') }}" class="btn-card bg-white p-6 rounded-xl shadow-md text-center hover:scale-105 transition-transform">
+                <a href="" class="btn-card bg-white p-6 rounded-xl shadow-md text-center hover:scale-105 transition-transform">
                     <span class="text-4xl">👨‍🎓</span>
                     <p class="mt-2 font-bold text-xs md:text-sm">Students</p>
                 </a>
@@ -201,4 +205,5 @@
 
     updateVisibility();
 </script>
-</html>
+</html> 
+
